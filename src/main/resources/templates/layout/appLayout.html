@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head:: head(${title})">
+    <title></title>
+</head>
+<body>
+
+<div class="container-scroller">
+    <nav th:replace="fragments/header :: header"></nav>
+    <div class="container-fluid page-body-wrapper">
+        <nav th:replace="fragments/sidebar :: sidebar"></nav>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div th:replace="${view} :: ${viewHTML}"></div>
+            </div>
+            <footer th:replace="fragments/footer :: footer"></footer>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/themes/dashboard/vendors/js/vendor.bundle.base.js}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script th:src="@{/themes/dashboard/vendors/chart.js/Chart.min.js}"></script>
+<script th:src="@{/themes/dashboard/vendors/datatables.net/jquery.dataTables.js}"></script>
+<script th:src="@{/themes/dashboard/vendors/datatables.net-bs4/dataTables.bootstrap4.js}"></script>
+<script th:src="@{/themes/dashboard/js/dataTables.select.min.js}"></script>
+
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script th:src="@{/themes/dashboard/js/off-canvas.js}"></script>
+<script th:src="@{/themes/dashboard/js/hoverable-collapse.js}"></script>
+<script th:src="@{/themes/dashboard/js/template.js}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script th:src="@{/themes/dashboard/js/dashboard.js}"></script>
+<script th:src="@{/themes/dashboard/js/Chart.roundedBarCharts.js}"></script>
+</body>

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>ini halaman user</h1>
-</body>
-</html>
+<div th:fragment="user-dashboard" xmlns:th="http://www.thymeleaf.org">
+    <div class="col-12 col-xl-8 mb-4 mb-xl-4">
+        <h1 th:text="'Welcome, ' + ${#authentication.name}"></h1>
+        <h3 th:text="'Role ='+${#authentication.authorities}"></h3>
+    </div>
+</div>

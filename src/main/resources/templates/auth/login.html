@@ -29,13 +29,17 @@
 
 
     <div  th:if="${param.error}" class="mt-2 alert alert-danger alert-dismissible fade show" role="alert">
-      Invalid email or password.
+      Email atau password salah.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <!-- Logout message -->
-    <div th:if="${param.logout}" class="alert alert-success">
-      You have been logged out successfully.
+
+    <div  th:if="${param.logout}" class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
+     Behasil Logout.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div> <div  th:if="${param.success}" class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
+      Berhasil registrasi silahkan login.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <div class="auth-body">

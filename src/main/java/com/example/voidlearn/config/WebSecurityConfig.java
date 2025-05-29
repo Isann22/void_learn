@@ -1,16 +1,15 @@
 package com.example.voidlearn.config;
 
-import com.example.voidlearn.service.impl.UserServiceImpl;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,12 +19,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    @Autowired
+    private  CustomAuthSuccessHandler customAuthSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/home", "auth/register","/register", "/themes/**","/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/home", "/layout","auth/register","/register","themes/dashboard/**", "/themes/**","/css/**", "/js/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/user/**").hasAuthority("USER")
                         .anyRequest().authenticated()
@@ -36,10 +38,14 @@ public class WebSecurityConfig {
                         .failureUrl("/login?error=true")
                         .usernameParameter("email")
                         .passwordParameter("password")
+                        .successHandler(customAuthSuccessHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
                 .exceptionHandling(exception -> exception
@@ -59,10 +65,12 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
+                "/themes/**",
+                "/static/**",
+                "/css/**",
+                "/js/**",
                 "/images/**",
-                "/webjars/**",
-                "/favicon.ico",
-                "/error"
+                "/vendor/**"
         );
     }
 

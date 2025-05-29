@@ -3,6 +3,7 @@ package com.example.voidlearn.controller;
 import com.example.voidlearn.dto.UserRegisterRequest;
 
 import com.example.voidlearn.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,11 +33,16 @@ public class UserController {
     {
 
         userService.register(userRegisterRequest);
-        return "redirect:/login?success=Registrasi+berhasil%21";
+        return "redirect:auth/login?success=Registrasi+berhasil%21";
     }
 
     @GetMapping("/user/dashboard")
-    public String showDahboardForm() {
-        return "user/dashboard";
+    public String layout(Model model, HttpServletRequest request) {
+        model.addAttribute("title", request.getSession().getAttribute("title"));
+        model.addAttribute("view", request.getSession().getAttribute("view"));
+        model.addAttribute("viewHTML", request.getSession().getAttribute("viewHTML"));
+
+
+        return "layout/appLayout";
     }
 }
