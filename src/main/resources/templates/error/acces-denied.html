@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Denied - VoidLearn</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Container Styles */
+        .access-denied-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        /* Typography Styles */
+        .error-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .error-subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        /* Icon Styles */
+        .error-icon {
+            font-size: 5rem;
+            color: #dc3545;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Message Box Styles */
+        .error-message {
+            background: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .user-info {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #2196f3;
+        }
+
+        /* Button Styles */
+        .btn-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            display: inline-block;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .btn-secondary-custom {
+            background: transparent;
+            border: 2px solid #6c757d;
+            color: #6c757d;
+        }
+
+        .btn-secondary-custom:hover {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* List Styles */
+        .suggestions {
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .suggestions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .suggestions li {
+            padding: 0.5rem 0;
+            color: #6c757d;
+        }
+
+        .suggestions li i {
+            color: #28a745;
+            margin-right: 0.5rem;
+        }
+
+        /* Help Section */
+        .help-section {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="mx-auto m-4 access-denied-container">
+        <!-- Error Icon -->
+        <div class="error-icon">
+            <i class="fas fa-ban"></i>
+        </div>
+
+        <!-- Error Title -->
+        <h1 class="error-title">Access Denied</h1>
+        <p class="error-subtitle">You don't have permission to access this resource</p>
+
+        <!-- Error Message -->
+        <div class="error-message">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>HTTP 403 - Forbidden</strong><br>
+            You are not authorized to view this page. This could be because:
+        </div>
+
+        <!-- Suggestions -->
+        <div class="suggestions">
+            <ul>
+                <li><i class="fas fa-check-circle"></i> You don't have the required role or permissions</li>
+                <li><i class="fas fa-check-circle"></i> Your session may have expired</li>
+                <li><i class="fas fa-check-circle"></i> The resource requires different access level</li>
+            </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-4">
+            <a href="javascript:history.back()" class="btn-custom">
+                <i class="fas fa-arrow-left me-2"></i>Go Back
+            </a>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-section">
+            <small class="text-muted">
+                <i class="fas fa-question-circle me-1"></i>
+                Need help? Contact your administrator or
+                <a href="mailto:support@voidlearn.com" class="text-decoration-none">support team</a>
+            </small>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Optional: Redirect to home after 30 seconds of inactivity
+    let redirectTimer;
+
+    function resetTimer() {
+        clearTimeout(redirectTimer);
+        redirectTimer = setTimeout(() => {
+            if (confirm('You will be redirected to the home page. Continue?')) {
+                window.location.href = '/';
+            }
+        }, 30000); // 30 seconds
+    }
+
+    // Reset timer on user activity
+    ['mousemove', 'keypress', 'click'].forEach(event => {
+        document.addEventListener(event, resetTimer);
+    });
+
+    // Start the timer
+    resetTimer();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.example.voidlearn.entity;
+package com.example.voidlearn.model;
 
 public enum Role {
     USER,

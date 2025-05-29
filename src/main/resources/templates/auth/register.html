@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Void Learn - Register</title>
+
+  <link rel="stylesheet" th:href="@{themes/home/vendor/bootstrap/css/bootstrap.min.css}" >
+  <link rel="stylesheet" th:href="@{themes/home/assets/css/fontawesome.css}">
+  <link rel="stylesheet" th:href="@{css/auth.css}">
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <a th:href="@{/}" class="logo">
+      <h1>VoidLearn</h1>
+    </a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h3>Register</h3>
+      <p class="mb-0">Create your account</p>
+    </div>
+
+    <div class="auth-body">
+      <!-- Error Message -->
+
+      <form id="register-form" th:action="@{/register}" th:object="${user}" method="post">
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="register-name" class="form-label">Full Name</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+            <input type="text" class="form-control" id="register-name"
+                   th:field="*{name}"
+                   required
+                   minlength="3"
+                   maxlength="50">
+          </div>
+
+        </div>
+
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="register-username" class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-at"></i></span>
+            <input type="text" class="form-control" id="register-username"
+                   th:field="*{username}"
+                   required
+                   minlength="3"
+                   maxlength="20"
+                   pattern="^[a-zA-Z0-9_]+$">
+          </div>
+          <small class="text-muted">3-20 characters, letters, numbers and underscore only</small>
+
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="register-email" class="form-label">Email Address</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <input type="email" class="form-control" id="register-email"
+                   th:field="*{email}"
+                   required>
+          </div>
+
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="register-password" class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" class="form-control" id="register-password"
+                   th:field="*{password}"
+                   required
+                   minlength="8">
+          </div>
+          <div class="form-text">At least 8 characters</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mb-3">Create Account</button>
+
+        <div class="auth-footer">
+          Already have an account? <a th:href="@{/auth/login}" class="auth-link">Sign In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script th:src="@{themes/home/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
