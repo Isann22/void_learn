@@ -1,6 +1,6 @@
 package com.example.voidlearn.service.impl;
 
-import com.example.voidlearn.config.SecurityBeansConfig;
+//import com.example.voidlearn.config.SecurityBeansConfig;
 import com.example.voidlearn.dto.UserRegisterRequest;
 import com.example.voidlearn.model.Role;
 import com.example.voidlearn.model.User;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserDetailsService, UserService {
 
         private final UserRepository userRepository;
-        private final SecurityBeansConfig passwordEnoder;
+        private final PasswordEncoder passwordEncoder;
 
         @Override
         @Transactional
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setName(request.getName());
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEnoder.passwordEncoder().encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
 
         User savedUser = userRepository.save(user);

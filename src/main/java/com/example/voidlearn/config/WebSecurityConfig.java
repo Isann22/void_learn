@@ -20,23 +20,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private final UserServiceImpl userService;
-    private final CustomAuthenticationProvider customAuthenticationProvider;
-    private final SecurityBeansConfig passwordEncoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authenticationProvider(customAuthenticationProvider)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/home", "/auth/register", "/register", "/login", "/themes/**", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/home", "auth/register","/register", "/themes/**","/css/**", "/js/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/user/**").hasAuthority("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/user/dashboard")
                         .failureUrl("/login?error=true")
                         .usernameParameter("email")
@@ -44,32 +39,17 @@ public class WebSecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/access-denied")
-                )
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
                 );
-
 
         return http.build();
     }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(passwordEncoder.passwordEncoder());
-        return authProvider;
-    }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -86,4 +66,8 @@ public class WebSecurityConfig {
         );
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

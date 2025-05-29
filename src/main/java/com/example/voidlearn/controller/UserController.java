@@ -32,7 +32,7 @@ public class UserController {
     {
 
         userService.register(userRegisterRequest);
-        return "redirect:/auth/login?success=Registrasi+berhasil%21";
+        return "redirect:/login?success=Registrasi+berhasil%21";
     }
 
     @GetMapping("/user/dashboard")
