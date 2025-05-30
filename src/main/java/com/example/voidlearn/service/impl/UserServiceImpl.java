@@ -1,6 +1,7 @@
 package com.example.voidlearn.service.impl;
 
 //import com.example.voidlearn.config.SecurityBeansConfig;
+import com.example.voidlearn.dto.CreateUserAdminRequest;
 import com.example.voidlearn.dto.UserRegisterRequest;
 import com.example.voidlearn.model.Role;
 import com.example.voidlearn.model.User;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -61,5 +63,36 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         log.debug("User registered successfully with id: {}", savedUser.getId());
         return savedUser;
     }
+
+    @Override
+    public List<User> getAlluser() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User createAdminUser(CreateUserAdminRequest request) {
+        User newUser = new User();
+        newUser.setName(request.getName());
+        newUser.setUsername(request.getUsername());
+        newUser.setEmail(request.getEmail());
+        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        newUser.setRole(Role.ADMIN);
+        return userRepository.save(newUser);
+    }
+
+    @Override
+    public User updateUser(CreateUserAdminRequest request, String userId) {
+        User userUpdate  = userRepository.findById(userId).get();
+        userUpdate.setName(request.getName());
+        userUpdate.setUsername(request.getUsername());
+        userUpdate.setEmail(request.getEmail());
+        userUpdate.setRole(Role.ADMIN);
+        return userRepository.save(userUpdate);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+        }
 }
 

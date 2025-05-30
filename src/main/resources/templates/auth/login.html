@@ -8,6 +8,7 @@
   <link rel="stylesheet" th:href="@{themes/home/vendor/bootstrap/css/bootstrap.min.css}" >
   <link rel="stylesheet" th:href="@{themes/home/assets/css/fontawesome.css}">
   <link rel="stylesheet" th:href="@{css/auth.css}">
+  <link rel="shortcut icon" th:href="@{/themes/dashboard/images/favicon.png}"/>
 </head>
 <body>
 <!-- Header -->
@@ -19,6 +20,7 @@
   </div>
 </header>
 
+
 <div class="container">
   <div class="auth-card">
     <div class="auth-header">
@@ -28,16 +30,17 @@
 
 
 
-    <div  th:if="${param.error}" class="mt-2 alert alert-danger alert-dismissible fade show" role="alert">
+    <div  th:if="${param.error}" class="m-2  alert alert-danger alert-dismissible fade show" role="alert">
       Email atau password salah.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
 
-    <div  th:if="${param.logout}" class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
+    <div  th:if="${param.logout}" class="m-2  alert alert-success alert-dismissible fade show" role="alert">
      Behasil Logout.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div> <div  th:if="${param.success}" class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
+    </div>
+    <div  th:if="${param.success}" class="m-2 alert alert-success alert-dismissible fade show" role="alert">
       Berhasil registrasi silahkan login.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>

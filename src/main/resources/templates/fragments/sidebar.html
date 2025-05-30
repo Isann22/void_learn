@@ -11,7 +11,7 @@
         <!-- Menu Admin (hanya tampil untuk ROLE_ADMIN) -->
         <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
             <a class="nav-link" data-toggle="collapse" href="#admin-menu" aria-expanded="false" aria-controls="admin-menu">
-                <i class="icon-settings menu-icon"></i>
+                <i class="icon-paper menu-icon"></i>
                 <span class="menu-title">Admin Panel</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -32,8 +32,8 @@
 
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#courses-menu" aria-expanded="false" aria-controls="courses-menu">
-                <i class="icon-book-open menu-icon"></i>
-                <span class="menu-title">Kursus Saya</span>
+                <i class="bi bi-book menu-icon"></i>
+                <span class="menu-title">Kursus</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="courses-menu">
@@ -41,7 +41,7 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/courses}">Semua Kursus</a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <li class="nav-item" sec:authorize="hasAuthority('USER')">
                         <a class="nav-link" th:href="@{/my-courses}">Kursus Saya</a>
                     </li>
                     <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
@@ -54,7 +54,7 @@
         <!-- Menu User (hanya tampil untuk ROLE_USER) -->
         <li class="nav-item" sec:authorize="hasAuthority('USER')">
             <a class="nav-link" data-toggle="collapse" href="#user-menu" aria-expanded="false" aria-controls="user-menu">
-                <i class="icon-user menu-icon"></i>
+                <i class="bi bi-info-square menu-icon"></i>
                 <span class="menu-title">Akun Saya</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -75,8 +75,9 @@
 
         <!-- Menu Diskusi -->
         <li class="nav-item" sec:authorize="isAuthenticated()">
+
             <a class="nav-link" th:href="@{/discussions}">
-                <i class="icon-bubble menu-icon"></i>
+                <i class="bi bi-broadcast menu-icon"></i>
                 <span class="menu-title">Diskusi</span>
             </a>
         </li>

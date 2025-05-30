@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +29,8 @@ public class WebSecurityConfig {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/home", "/layout","auth/register","/register","themes/dashboard/**", "/themes/**","/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/api/**", "/layout", "/register", "themes/dashboard/**",
+                                "/themes/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/user/**").hasAuthority("USER")
                         .anyRequest().authenticated()
@@ -47,6 +50,8 @@ public class WebSecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
+                ).csrf((csrf) -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/access-denied")
