@@ -1,11 +1,11 @@
 package com.example.voidlearn.repo;
 
-import com.example.voidlearn.model.User;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.voidlearn.model.User;
 
 
 @Repository
