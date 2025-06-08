@@ -3,41 +3,32 @@ package com.example.voidlearn.controller.rest;
 
 
 import java.util.List;
-
+import com.example.voidlearn.dao.UserProjection;
+import com.example.voidlearn.dto.UserDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.voidlearn.dto.CreateUserAdminRequest;
-import com.example.voidlearn.model.User;
+import org.springframework.web.bind.annotation.*;
 import com.example.voidlearn.service.UserService;
-
 import lombok.RequiredArgsConstructor;
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/data")
+@RequestMapping("/api/user")
 public class UserRestController {
 
     private final UserService userService;
+
     @GetMapping()
-    public List<User> getALluser(){
-        return userService.getAlluser();
+    public List<UserProjection> getALluser(){
+        return userService.getUserData();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAdminUser(@RequestBody CreateUserAdminRequest userDto
+    public ResponseEntity<?> createAdminUser(@RequestBody UserDto request
                                   )
     {
-        userService.createAdminUser(userDto);
+        userService.createAdmin(request);
         return ResponseEntity.ok().build();
     }
 
@@ -53,7 +44,7 @@ public class UserRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody CreateUserAdminRequest request, @PathVariable String id) {
+    public ResponseEntity<?> updateUser(@RequestBody UserDto request, @PathVariable String id) {
         try {
             userService.updateUser(request,id);
             return ResponseEntity.ok().build();

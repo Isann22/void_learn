@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#userTable').DataTable({
         "ajax": {
-            "url": "/api/data",
+            "url": "/api/user",
             "dataSrc": ""
         },
         "columns": [
@@ -63,17 +63,84 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('#editUserForm').submit(function(e) {
+        e.preventDefault();
+
+        const userId = $('#editUserId').val();
+        const userData = {
+            email: $('#editEmail').val(),
+            name: $('#editName').val(),
+            username: $('#editUsername').val()
+        };
+
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            url: `/api/user/${userId}`,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(userData),
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function() {
+                editModal.hide();
+                $('#userTable').DataTable().ajax.reload();
+                showToast("Success", "Berhasil update user", "success", 5000);
+            },
+            error: function(xhr) {
+                showToast("Error", "Error saat update user.", "error", 5000);
+            },
+        });
+    });
+
+    $('#createUserForm').submit(function(e) {
+        e.preventDefault();
+
+
+        const userData = {
+            name: $('#name').val(),
+            username: $('#username').val(),
+            email: $('#email').val(),
+            password:$('#password').val()
+        };
+
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+
+        $.ajax({
+            url: `/api/user/create`,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(userData),
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function() {
+                $('#userTable').DataTable().ajax.reload();
+                addModal.hide()
+                showToast("Success", "Berhasil menambahkan admin", "success", 5000);
+                $('#createUserForm')[0].reset();
+            },
+            error: function(xhr) {
+                showToast("Error", "error saat menambahkan user.", "error", 5000);
+            },
+        });
+    });
 });
 
 
 
-const editModal = new bootstrap.Modal(document.getElementById('editUserModal'));
-const addModal = new bootstrap.Modal(document.getElementById('addAdminModal'));
 
+const addModal = new bootstrap.Modal(document.getElementById('addAdminModal'));
 $('#btn-modal').on('click', function() {
     addModal.show();
 });
 
+const editModal = new bootstrap.Modal(document.getElementById('editUserModal'));
 function editUser(userId,email,name,username) {
     editModal.show();
     $('#editUserId').val(userId);
@@ -82,121 +149,29 @@ function editUser(userId,email,name,username) {
     $('#editUsername').val(username);
 }
 
-$('#editUserForm').submit(function(e) {
-    e.preventDefault();
 
-    const userId = $('#editUserId').val();
-    const userData = {
-        email: $('#editEmail').val(),
-        name: $('#editName').val(),
-        username: $('#editUsername').val()
-    };
 
+async function deleteUser(userId) {
     const token = $("meta[name='_csrf']").attr("content");
     const header = $("meta[name='_csrf_header']").attr("content");
-
-
-    $.ajax({
-        url: `/api/data/${userId}`,
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(userData),
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        success: function() {
-            editModal.hide();
-            $('#userTable').DataTable().ajax.reload();
-            $.toast({
-                title:"Success",
-                message:"Berhasil mengubah user.",
-                type:"success",
-                duration: 5000,
-            });
-        },
-        error: function(xhr) {
-            $.toast({
-                title:"Error",
-                message:"error saat menghapus user.",
-                type:"error",
-                duration: 3000,
-            });
-        },
-    });
-});
-
-$('#createUserForm').submit(function(e) {
-    e.preventDefault();
-
-
-    const userData = {
-        name: $('#name').val(),
-        username: $('#username').val(),
-        email: $('#email').val(),
-        password:$('#password').val()
-    };
-
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-
-
-    $.ajax({
-        url: `/api/data/create`,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(userData),
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        success: function() {
-            $('#userTable').DataTable().ajax.reload();
-            addModal.hide()
-            $.toast({
-                title:"Success",
-                message:"Berhasil menambahkan user.",
-                type:"success",
-                duration: 5000,
-            });
-        },
-        error: function(xhr) {
-            $.toast({
-                title:"Error",
-                message:"error saat menambahkan user.",
-                type:"error",
-                duration: 3000,
-            });
-        },
-    });
-});
-
-
-function deleteUser(userId) {
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-    if (confirm('Are you sure you want to delete this user?')) {
-        // AJAX call to delete the user
+    const result = await showConfirmDialog(
+        'Are you sure?',
+        "You won't be able to revert this!",
+        'Yes, delete it!'
+    );
+    if (result.isConfirmed) {
         $.ajax({
-            url: `/api/data/${userId}`,
+            url: `/api/user/${userId}`,
             type: 'DELETE',
             beforeSend: function(xhr) {
                 xhr.setRequestHeader(header, token);
             },
             success: function(result) {
                 $('#userTable').DataTable().ajax.reload();
-                $.toast({
-                    title:"Success",
-                    message:"Berhasil menghapus user.",
-                    type:"success",
-                    duration: 5000,
-                });
+                showToast("Success", "Berhasil menghapus user.", "success", 5000);
             },
             error: function(xhr) {
-                $.toast({
-                    title:"Error",
-                    message:"error saat menghapus user.",
-                    type:"error",
-                    duration: 3000,
-                });
+                showToast("Error", "error saat menambahkan user.", "error", 5000);
             }
         });
     }

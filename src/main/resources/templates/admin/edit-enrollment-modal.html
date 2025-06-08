@@ -1,0 +1,44 @@
+<!-- Modal for Edit Enrolment -->
+<div th:fragment="edit-enrolment" class="modal fade" id="editEnrolmentModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="editEnrolmentForm">
+                <input type="hidden" id="editEnrolmentId" name="id">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Enrolment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editUserId">User</label>
+                        <select class="form-control" id="editUserId" name="userId" required>
+                            <option value="">Select User</option>
+                            <option th:each="user : ${users}"
+                                    th:value="${user.id}"
+                                    th:text="${user.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseId">Course</label>
+                        <select class="form-control" id="editCourseId" name="courseId" required>
+                            <option value="">Select Course</option>
+                            <option th:each="course : ${courses}"
+                                    th:value="${course.id}"
+                                    th:text="${course.title}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Simpan perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

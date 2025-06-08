@@ -1,0 +1,42 @@
+<div th:fragment="create-enrolment" class="modal fade" id="addEnrolmentModal" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="addEnrolmentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="createEnrolmentForm">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Enrolment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="userId">User</label>
+                        <select class="form-control" id="userId" name="userId" required>
+                            <option value="">Select User</option>
+                            <option th:each="user : ${users}"
+                                    th:value="${user.id}"
+                                    th:text="${user.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseId">Course</label>
+                        <select class="form-control" id="courseId" name="courseId" required>
+                            <option value="">Select Course</option>
+                            <option th:each="course : ${courses}"
+                                    th:value="${course.id}"
+                                    th:text="${course.title}">
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Tambah Enrolment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div th:fragment="user-profile" xmlns:th="http://www.thymeleaf.org">
+    <!-- Profile Section -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <!-- Profile Header -->
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold">User Profile</h2>
+                            <p class="text-muted">Manage your account information</p>
+                        </div>
+
+                        <!-- User Details -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded">
+                                    <small class="text-muted d-block">Username</small>
+                                    <h5 th:text="${username} ?: 'Not available'" class="mb-0"></h5>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded">
+                                    <small class="text-muted d-block">Email Address</small>
+                                    <h5 th:text="${email} ?: 'Not provided'" class="mb-0"></h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-end mt-4">
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteAccountModal">
+                                Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-danger">Delete Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                    <form th:action="@{/profile/delete}" method="post" id="deleteAccountForm">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Enter your password to confirm:</label>
+                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" form="deleteAccountForm" class="btn btn-danger">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSS Styles -->
+    <style>
+        .card {
+            border-radius: 12px;
+            border: none;
+        }
+        .bg-light {
+            background-color: #f8f9fa!important;
+        }
+    </style>
+</div>

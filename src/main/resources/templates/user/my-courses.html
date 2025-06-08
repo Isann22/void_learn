@@ -1,0 +1,35 @@
+<div th:fragment="user-myCourses" xmlns:th="http://www.thymeleaf.org">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-primary">
+                <i class="fas fa-book-open me-2"></i>Kursus Saya
+            </h5>
+            <span class="badge bg-primary rounded-pil text-white" th:text="${enrolments.size()} + ' Kursus'">0 Kursus</span>
+        </div>
+        <div class="card-body p-0">
+            <div th:if="${enrolments.empty}" class="alert alert-info m-3 d-flex align-items-center">
+                <i class="fas fa-info-circle me-2"></i>
+                Anda belum terdaftar di kursus manapun
+            </div>
+
+            <ul th:unless="${enrolments.empty}" class="list-group list-group-flush">
+                <li th:each="enrolment : ${enrolments}" class="list-group-item hover-effect">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1 fw-bold" th:text="${enrolment.course.title}">Nama Kursus</h6>
+                            <small class="text-muted d-flex align-items-center">
+                                <i class="far fa-calendar-alt me-1"></i>
+                                <span th:text="${#temporals.format(enrolment.createdDate, 'dd MMM yyyy')}">
+                                    01 Jan 2025
+                                </span>
+                            </small>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

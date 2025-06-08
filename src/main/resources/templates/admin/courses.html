@@ -18,12 +18,10 @@
                     <table id="courseTable" class="table table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>ID</th>
+                            <th>id</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Instructor</th>
-                            <th>Created At</th>
-                            <th>Status</th>
+                            <th>Image</th>
                             <th style="width: 120px">Actions</th>
                         </tr>
                         </thead>
@@ -31,4 +29,8 @@
                 </div>
             </div>
         </div>
+
+        <div th:replace="admin/create-course-modal :: create-course"></div>
+        <div th:replace="admin/edit-course-modal.html :: edit-course"></div>
     </div>
+</div>

@@ -1,16 +1,19 @@
 package com.example.voidlearn.service;
 
 
-import com.example.voidlearn.dto.CreateUserAdminRequest;
-import com.example.voidlearn.dto.UserRegisterRequest;
+
+import com.example.voidlearn.dao.UserProjection;
+import com.example.voidlearn.dto.UserDto;
+import com.example.voidlearn.model.Course;
 import com.example.voidlearn.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    User register(UserRegisterRequest request);
-    List<User> getAlluser();
-    User updateUser(CreateUserAdminRequest request,String userId);
-    User createAdminUser(CreateUserAdminRequest request);
+    User register(UserDto request);
+    User createAdmin(UserDto request);
+    User updateUser(UserDto request, String userId);
     void deleteUser(String id);
+    long countRoleUser();
+    List<UserProjection> getUserData();
 }

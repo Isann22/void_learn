@@ -1,7 +1,5 @@
 package com.example.voidlearn.dto;
 
-import com.example.voidlearn.model.User;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
